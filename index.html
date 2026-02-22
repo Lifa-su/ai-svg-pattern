@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI SVG Pattern Generator - Create Seamless Tileable Patterns Online Free</title>
+<meta name="description" content="Free online SVG seamless pattern generator. Create beautiful tileable patterns including dots, stripes, waves, chevrons, hexagons and more. Export as SVG or PNG.">
+<meta name="keywords" content="SVG pattern generator, seamless pattern, tileable pattern, SVG background, pattern maker">
+<meta property="og:title" content="AI SVG Pattern Generator - Create Seamless Patterns Online">
+<meta property="og:description" content="Generate beautiful seamless SVG patterns. 10 pattern types, real-time preview, export SVG and PNG.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#1a1a2e;--card:#16213e;--accent:#0f3460;--hi:#e94560;--text:#e0e0e0;--dim:#8892a4;--r:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+h1{font-size:1.5rem;font-weight:700;text-align:center;padding:1rem 1rem .3rem;background:linear-gradient(135deg,var(--hi),#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{text-align:center;color:var(--dim);font-size:.82rem;margin-bottom:1rem}
+.app{display:flex;gap:1rem;padding:0 1rem 1rem;max-width:1400px;margin:0 auto}
+.panel{background:var(--card);border-radius:var(--r);padding:1rem;width:310px;flex-shrink:0;max-height:calc(100vh - 100px);overflow-y:auto}
+.panel::-webkit-scrollbar{width:5px}.panel::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+.prev-area{flex:1;min-width:0;display:flex;flex-direction:column;gap:.8rem}
+.prev-box{background:var(--card);border-radius:var(--r);padding:.8rem;flex:1;min-height:400px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.tiled{width:100%;height:100%;min-height:380px;border-radius:8px}
+.acts{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn{padding:.5rem 1rem;border:none;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:.3rem}
+.bp{background:var(--hi);color:#fff}.bp:hover{background:#ff3355}
+.bs{background:var(--accent);color:var(--text)}.bs:hover{background:#1a4a80}
+.bo{background:transparent;border:1px solid var(--accent);color:var(--text)}.bo:hover{border-color:var(--hi);color:var(--hi)}
+.sec{margin-bottom:.8rem}
+.st{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:.4rem;font-weight:600}
+.pg{display:grid;grid-template-columns:repeat(2,1fr);gap:.4rem}
+.pb{padding:.4rem;border:2px solid var(--accent);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;font-size:.68rem;text-align:center;transition:all .2s}
+.pb:hover{border-color:var(--hi);background:rgba(233,69,96,.08)}
+.pb.on{border-color:var(--hi);background:rgba(233,69,96,.15)}
+.pb svg{display:block;margin:0 auto .15rem;width:30px;height:30px}
+.ct{margin-bottom:.6rem}
+.ct label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--dim);margin-bottom:.2rem}
+.ct label span{color:var(--hi);font-weight:600}
+input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--accent);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--hi);cursor:pointer;border:2px solid #fff}
+input[type=color]{-webkit-appearance:none;border:2px solid var(--accent);border-radius:6px;width:100%;height:32px;cursor:pointer;background:transparent;padding:2px}
+input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+input[type=color]::-webkit-color-swatch{border:none;border-radius:4px}
+.cr{display:flex;gap:.4rem;align-items:center}
+.cr input[type=color]{flex:0 0 46px;width:46px}
+.cr input[type=text]{flex:1;background:var(--accent);border:none;border-radius:6px;padding:.3rem .5rem;color:var(--text);font-size:.75rem;font-family:monospace}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--hi);color:#fff;padding:.5rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;transition:transform .3s;z-index:999;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+footer{text-align:center;padding:1.2rem;color:var(--dim);font-size:.72rem}
+@media(max-width:768px){
+.app{flex-direction:column;padding:0 .6rem .6rem}
+.panel{width:100%;max-height:none}
+.prev-box{min-height:260px}.tiled{min-height:240px}
+.pg{grid-template-columns:repeat(4,1fr)}
+h1{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+<h1>🎨 AI SVG Pattern Generator</h1>
+<p class="sub">Create beautiful seamless tileable patterns — export as SVG or PNG</p>
+<div class="app">
+<div class="panel" id="controls">
+  <div class="sec"><div class="st">Pattern Type</div><div class="pg" id="pg"></div></div>
+  <div class="sec"><div class="st">Colors</div>
+    <div class="ct"><label>Foreground</label><div class="cr"><input type="color" id="fg" value="#e94560"><input type="text" id="fgH" value="#e94560"></div></div>
+    <div class="ct"><label>Background</label><div class="cr"><input type="color" id="bg" value="#1a1a2e"><input type="text" id="bgH" value="#1a1a2e"></div></div>
+  </div>
+  <div class="sec"><div class="st">Parameters</div>
+    <div class="ct"><label>Size <span id="sV">20</span></label><input type="range" id="size" min="5" max="80" value="20"></div>
+    <div class="ct"><label>Spacing <span id="spV">40</span></label><input type="range" id="spacing" min="10" max="120" value="40"></div>
+    <div class="ct"><label>Stroke Width <span id="swV">2</span></label><input type="range" id="sw" min="1" max="20" value="2"></div>
+    <div class="ct"><label>Rotation <span id="rV">0°</span></label><input type="range" id="rot" min="0" max="360" value="0"></div>
+    <div class="ct"><label>Opacity <span id="oV">100%</span></label><input type="range" id="opa" min="10" max="100" value="100"></div>
+  </div>
+</div>
+<div class="prev-area">
+  <div class="prev-box"><div class="tiled" id="tiled"></div></div>
+  <div class="acts">
+    <button class="btn bp" onclick="dlSVG()">⬇ SVG</button>
+    <button class="btn bp" onclick="dlPNG()">⬇ PNG</button>
+    <button class="btn bs" onclick="copySVG()">📋 Copy SVG</button>
+    <button class="btn bo" onclick="randomize()">🎲 Random</button>
+  </div>
+</div>
+</div>
+<footer>AI SVG Pattern Generator — Free tool for designers and developers</footer>
+<div class="toast" id="toast"></div>
+<script>
+const P=[
+{n:'Dots',f:function(s,sp,sw,fg){return '<circle cx="'+(sp/2)+'" cy="'+(sp/2)+'" r="'+s/2+'" fill="'+fg+'"/>';}},
+{n:'Stripes',f:function(s,sp,sw,fg){return '<line x1="0" y1="0" x2="0" y2="'+sp+'" stroke="'+fg+'" stroke-width="'+sw+'"/>';}},
+{n:'Waves',f:function(s,sp,sw,fg){var h=sp/2;return '<path d="M0 '+h+' Q'+(sp/4)+' 0 '+(sp/2)+' '+h+' Q'+(sp*3/4)+' '+sp+' '+sp+' '+h+'" fill="none" stroke="'+fg+'" stroke-width="'+sw+'"/>';}},
+{n:'Chevron',f:function(s,sp,sw,fg){var h=sp/2;return '<path d="M0 '+h+' L'+(sp/2)+' 0 L'+sp+' '+h+'" fill="none" stroke="'+fg+'" stroke-width="'+sw+'"/><path d="M0 '+sp+' L'+(sp/2)+' '+h+' L'+sp+' '+sp+'" fill="none" stroke="'+fg+'" stroke-width="'+sw+'"/>';}},
+{n:'Grid',f:function(s,sp,sw,fg){return '<line x1="'+(sp/2)+'" y1="0" x2="'+(sp/2)+'" y2="'+sp+'" stroke="'+fg+'" stroke-width="'+sw+'"/><line x1="0" y1="'+(sp/2)+'" x2="'+sp+'" y2="'+(sp/2)+'" stroke="'+fg+'" stroke-width="'+sw+'"/>';}},
+{n:'Hexagon',f:function(s,sp,sw,fg){var r=s/2,cx=sp/2,cy=sp/2,pts=[];for(var i=0;i<6;i++){var a=Math.PI/3*i-Math.PI/6;pts.push((cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1));}return '<polygon points="'+pts.join(' ')+'" fill="none" stroke="'+fg+'" stroke-width="'+sw+'"/>';}},
+{n:'Triangles',f:function(s,sp,sw,fg){return '<path d="M'+(sp/2)+' '+(sp*0.15)+' L'+(sp*0.85)+' '+(sp*0.85)+' L'+(sp*0.15)+' '+(sp*0.85)+' Z" fill="none" stroke="'+fg+'" stroke-width="'+sw+'"/>';}},
+{n:'Diamonds',f:function(s,sp,sw,fg){var c=sp/2;return '<path d="M'+c+' 0 L'+sp+' '+c+' L'+c+' '+sp+' L0 '+c+' Z" fill="none" stroke="'+fg+'" stroke-width="'+sw+'"/>';}},
+{n:'Circles',f:function(s,sp,sw,fg){return '<circle cx="'+(sp/2)+'" cy="'+(sp/2)+'" r="'+s/2+'" fill="none" stroke="'+fg+'" stroke-width="'+sw+'"/>';}},
+{n:'Crosses',f:function(s,sp,sw,fg){var c=sp/2,h=s/2;return '<line x1="'+(c-h)+'" y1="'+c+'" x2="'+(c+h)+'" y2="'+c+'" stroke="'+fg+'" stroke-width="'+sw+'"/><line x1="'+c+'" y1="'+(c-h)+'" x2="'+c+'" y2="'+(c+h)+'" stroke="'+fg+'" stroke-width="'+sw+'"/>';}}
+];
+var cur=0;
+var icons=['●','≡','∿','⟩','#','⬡','△','◇','○','+'];
+function init(){
+  var g=document.getElementById('pg');
+  P.forEach(function(p,i){
+    var b=document.createElement('button');
+    b.className='pb'+(i===0?' on':'');
+    b.innerHTML='<span style="font-size:1.3rem">'+icons[i]+'</span>'+p.n;
+    b.onclick=function(){cur=i;document.querySelectorAll('.pb').forEach(function(x){x.classList.remove('on')});b.classList.add('on');render();};
+    g.appendChild(b);
+  });
+  ['size','spacing','sw','rot','opa'].forEach(function(id){
+    document.getElementById(id).addEventListener('input',render);
+  });
+  ['fg','bg'].forEach(function(id){
+    var c=document.getElementById(id),h=document.getElementById(id+'H');
+    c.addEventListener('input',function(){h.value=c.value;render();});
+    h.addEventListener('input',function(){if(/^#[0-9a-fA-F]{6}$/.test(h.value)){c.value=h.value;render();}});
+  });
+  render();
+}
+function getVals(){
+  return{
+    size:+document.getElementById('size').value,
+    spacing:+document.getElementById('spacing').value,
+    sw:+document.getElementById('sw').value,
+    rot:+document.getElementById('rot').value,
+    opa:+document.getElementById('opa').value/100,
+    fg:document.getElementById('fg').value,
+    bg:document.getElementById('bg').value
+  };
+}
+function render(){
+  var v=getVals();
+  document.getElementById('sV').textContent=v.size;
+  document.getElementById('spV').textContent=v.spacing;
+  document.getElementById('swV').textContent=v.sw;
+  document.getElementById('rV').textContent=v.rot+'°';
+  document.getElementById('oV').textContent=Math.round(v.opa*100)+'%';
+  var svg=makeSVG(v);
+  var enc='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+  var t=document.getElementById('tiled');
+  t.style.background='url("'+enc+'")';
+  t.style.backgroundColor=v.bg;
+  t.style.backgroundSize=v.spacing+'px '+v.spacing+'px';
+}
+function makeSVG(v){
+  var inner=P[cur].f(v.size,v.spacing,v.sw,v.fg);
+  var transform=v.rot?(' transform="rotate('+v.rot+' '+(v.spacing/2)+' '+(v.spacing/2)+')"'):'';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="'+v.spacing+'" height="'+v.spacing+'" viewBox="0 0 '+v.spacing+' '+v.spacing+'"><rect width="'+v.spacing+'" height="'+v.spacing+'" fill="'+v.bg+'"/><g opacity="'+v.opa+'"'+transform+'>'+inner+'</g></svg>';
+}
+function makeFullSVG(){
+  var v=getVals();var tile=makeSVG(v);var rep=5;var w=v.spacing*rep,h=v.spacing*rep;
+  var enc='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(tile)));
+  return '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><defs><pattern id="p" width="'+v.spacing+'" height="'+v.spacing+'" patternUnits="userSpaceOnUse"><image href="'+enc+'" width="'+v.spacing+'" height="'+v.spacing+'"/></pattern></defs><rect width="'+w+'" height="'+h+'" fill="url(#p)"/></svg>';
+}
+function dlSVG(){
+  var svg=makeFullSVG();var b=new Blob([svg],{type:'image/svg+xml'});var u=URL.createObjectURL(b);
+  var a=document.createElement('a');a.href=u;a.download='pattern.svg';a.click();URL.revokeObjectURL(u);toast('SVG downloaded!');
+}
+function dlPNG(){
+  var v=getVals();var tile=makeSVG(v);var rep=5;var w=v.spacing*rep,h=v.spacing*rep;
+  var img=new Image();
+  img.onload=function(){
+    var c=document.createElement('canvas');c.width=w;c.height=h;var ctx=c.getContext('2d');
+    for(var x=0;x<rep;x++)for(var y=0;y<rep;y++)ctx.drawImage(img,x*v.spacing,y*v.spacing);
+    c.toBlob(function(blob){var u=URL.createObjectURL(blob);var a=document.createElement('a');a.href=u;a.download='pattern.png';a.click();URL.revokeObjectURL(u);toast('PNG downloaded!');},'image/png');
+  };
+  img.src='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(tile)));
+}
+function copySVG(){
+  var svg=makeSVG(getVals());navigator.clipboard.writeText(svg).then(function(){toast('SVG code copied!');});
+}
+function randomize(){
+  var rc=function(){return '#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');};
+  document.getElementById('fg').value=rc();document.getElementById('fgH').value=document.getElementById('fg').value;
+  document.getElementById('bg').value=rc();document.getElementById('bgH').value=document.getElementById('bg').value;
+  document.getElementById('size').value=10+Math.floor(Math.random()*40);
+  document.getElementById('spacing').value=20+Math.floor(Math.random()*60);
+  document.getElementById('sw').value=1+Math.floor(Math.random()*8);
+  document.getElementById('rot').value=Math.floor(Math.random()*360);
+  document.getElementById('opa').value=50+Math.floor(Math.random()*51);
+  cur=Math.floor(Math.random()*P.length);
+  document.querySelectorAll('.pb').forEach(function(x,i){x.classList.toggle('on',i===cur);});
+  render();
+}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2000);}
+init();
+</script>
+<script src="https://alwingulla.com/88/tag.min.js" data-zone="130747" async data-cfasync="false"></script>
+</body>
+</html>
